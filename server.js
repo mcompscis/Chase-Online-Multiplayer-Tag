@@ -73,25 +73,21 @@ io.on('connection', (s) => {
   // joining the game
   s.on('joinGame', function() {
     let playerId = s.id;
-    game.addPlayer({id: playerId, x: 0, y: 0, isIt: false});
-    // check if the current player is the first player
-    let isIt = (game.getPlayers()[0].id == playerId);
-    console.log(isIt);
-    game.updatePlayer({id: game.getPlayers()[0].id, x: game.getPlayers()[0].x, y: game.getPlayers()[0].y, isIt: true});
-    s.emit('addPlayer', {players: game.getPlayers(), id: playerId, x: 0, y: 0, isCurr: true, isIt: isIt, coord: game.generateCoord()});
-    s.broadcast.emit('addPlayer', {players: game.getPlayers(), id: playerId, x: 0, y: 0, isCurr: false, isIt: isIt});
-    console.log(game.getPlayers());
-    
+    let coords = game.generateCoord();
+    let players = game.getPlayers();
+    let isIt = (players.length == 0);
+    game.addPlayer({id: playerId, x: coords.x, y: coords.y, isIt: isIt});
+    s.emit('addPlayer', {players: players, id: playerId, x: coords.x, y: coords.y, isCurr: true, isIt: isIt});
+    s.broadcast.emit('addPlayer', {players: players, id: playerId, x: coords.x, y: coords.y, isCurr: false, isIt: isIt});    
   });
   
   // handle updates
   s.on('localUpdate', function(player) {
     if (player != undefined) {
-      // console.log("got update from local player");
       game.updatePlayer(player);
+      s.emit('update', game.getPlayers());
+      s.broadcast.emit('update', game.getPlayers());
     }
-    s.emit('update', game.getPlayers());
-    s.broadcast.emit('update', game.getPlayers());
   });
 
   // ending game
