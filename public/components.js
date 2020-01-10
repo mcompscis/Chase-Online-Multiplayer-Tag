@@ -159,7 +159,8 @@ Game.prototype = {
             if (p.id == _this.localPlayer.id) {
                 // console.log("local:", _this.localPlayer.sprite.x, _this.localPlayer.sprite.y);
                 // console.log("new:", p.x, p.y);
-                if (_this.localPlayer.sprite.x != p.x && _this.localPlayer.sprite.y != p.y) _this.localPlayer.setCoords(p.x, p.y);
+                // if (_this.localPlayer.sprite.x != p.x && _this.localPlayer.sprite.y != p.y) 
+                _this.localPlayer.setCoords(p.x, p.y);
                 _this.localPlayer.setIsIt(p.isIt);
                 if (p.isIt) _this.localPlayer.updatePlayer();
             }

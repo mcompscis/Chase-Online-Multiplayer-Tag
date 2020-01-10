@@ -148,7 +148,7 @@ function bumpArray(player) {
     let result = [];
     for (other of game.otherPlayers) {
         if (player.id != other.id) {
-            let collision = b.hit(player.sprite, other.sprite);
+            let collision = intersect(player.sprite, other.sprite);
             if (collision) {
                 if (!player.isIt && !other.isIt) result.push(other);
                 else if (player.isIt || other.isIt) {
