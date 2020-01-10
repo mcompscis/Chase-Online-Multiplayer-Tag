@@ -2,20 +2,19 @@
 
 var express = require("express");
 
-var socket = require('socket.io');
-
 // App setup
 var app = express();
-const port = process.env.PORT || 3000;
-var server = app.listen(port, function () {
-  console.log("Server started on port");
+const pt = process.env.PORT || 3000;
+var server = app.listen(pt, function () {
+  var port = server.address().port;
+	console.log('Server running at port %s', port);
 });
 
 // Static files
 app.use(express.static('public'));
 
 // Socket setup & pass server
-let io = socket(server);
+let io = require('socket.io')(server);
 
 //////////////////////////////////////////////////////////////////////////////////////////
 function GameServer() {

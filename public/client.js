@@ -77,6 +77,7 @@ function keysUp(e) {
 }
 
 function movePlayerForward(direction, player, spd) {
+    console.log("forward", direction);
     switch(direction) {
         case "left":
             player.sprite.x -= spd;
@@ -111,6 +112,7 @@ function movePlayerForward(direction, player, spd) {
 }
 
 function movePlayerBackward(direction, player, spd) {
+    console.log("reset", direction);
     switch(direction) {
         case "left":
             player.sprite.x += spd;
@@ -187,17 +189,25 @@ function bumpWall(player) {
     return {result: result, spike: spike};
 }
 function bump(direction, player) {
-    console.log(player.sprite.x, player.sprite.y);
+    console.log("^^^^^^^^^^^^^^^^^^^^Start here^^^^^^^^^^^^^^^^^^^^");
+    console.log("before intial move: ", player.sprite.x, player.sprite.y, direction);
     movePlayerForward(direction, player, speed);
+    console.log("after intial move: ", player.sprite.x, player.sprite.y, direction);
     let wall = bumpWall(player);
+    console.log("after bumpWall(): ", player.sprite.x, player.sprite.y, direction);
     if (wall.result) {
         console.log("wall touched");
         if (wall.spike && !player.isIt) game.endGame(player.id);
         else if (!wall.spike) movePlayerBackward(direction, player, speed);
+        console.log("after moves for wall being touched: ", player.sprite.x, player.sprite.y, direction);
     }
     else {
+        console.log("before bumpOthers: ", player.sprite.x, player.sprite.y, direction);
         bumpOtherPlayers(direction, player);
+        console.log("after bumpOthers: ", player.sprite.x, player.sprite.y, direction);
     }
+    console.log("at the end: ", player.sprite.x, player.sprite.y, direction);
+    console.log("-------------------End here-------------------");
 }
 
 function bumpOtherPlayers(direction, player) {
@@ -237,8 +247,8 @@ function followPlayer() {
     game.app.stage.scale.y = 2.0;
     //now specify which point INSIDE stage must be (0,0)
     
-    game.app.stage.pivot.x = game.localPlayer.sprite.position.x;
-    game.app.stage.pivot.y = game.localPlayer.sprite.position.y;
+    game.app.stage.pivot.x = game.localPlayer.sprite.x;
+    game.app.stage.pivot.y = game.localPlayer.sprite.y;
 }
 
 function resizeApp(app) {
@@ -266,19 +276,19 @@ function gameLoop() {
     if (oneOrMore) {
         speed = 4;
         if ((keys["37"] && keys["38"])) bump("topleft", game.localPlayer);
-        if ((keys["37"] && keys["40"])) bump("bottomleft", game.localPlayer);
-        if ((keys["39"] && keys["38"])) bump("topright", game.localPlayer);
-        if ((keys["39"] && keys["40"])) bump("bottomright", game.localPlayer);
+        else if ((keys["37"] && keys["40"])) bump("bottomleft", game.localPlayer);
+        else if ((keys["39"] && keys["38"])) bump("topright", game.localPlayer);
+        else if ((keys["39"] && keys["40"])) bump("bottomright", game.localPlayer);
         speed = 5;
     } else {
         //left
         if (keys["37"]) bump("left", game.localPlayer);
         //top
-        if (keys["38"]) bump("top", game.localPlayer);
+        else if (keys["38"]) bump("top", game.localPlayer);
         //right
-        if (keys["39"]) bump("right", game.localPlayer);
+        else if (keys["39"]) bump("right", game.localPlayer);
         //bottom
-        if (keys["40"]) bump("bottom", game.localPlayer);
+        else if (keys["40"]) bump("bottom", game.localPlayer);
     }
 
     followPlayer();
