@@ -54,7 +54,7 @@ function Player(id, isCurr, isIt) {
     this.isCurr = isCurr;
     this.isIt = isIt;
     this.sprite = new PIXI.Sprite.from("it.png");
-    this.sprite.x = 300;
+    this.sprite.x = 340;
     this.sprite.y = 300;
     this.defineProperties();
     this.sprite.circular = true;
