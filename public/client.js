@@ -1,5 +1,5 @@
 // Make connection
-var _socket = io.connect('http://localhost:3000/');
+var _socket = io.connect('https://tag-multiplayer.herokuapp.com/');
 let keys = {};
 let b = new Bump(PIXI);
 let game = new Game(_socket);
