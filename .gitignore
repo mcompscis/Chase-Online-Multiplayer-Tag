@@ -1,7 +1,6 @@
 /node_modules/
-/package
-/package-lock
-/pixi.min
-/public/bump
-/public/player
-/public/copy
+package
+package-lock
+public/bump
+public/player
+public/copy
