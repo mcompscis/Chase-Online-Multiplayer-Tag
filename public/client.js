@@ -12,11 +12,7 @@ _socket.on('addPlayer', function(data) {
 });
 
 _socket.on('update', function(info) {
-    if ((game.localPlayer != undefined) && (info.player.id != game.localPlayer.id)) {
-        console.log("Got an update!", info.player);
-        console.log("The whole array", info.arrayPlayers);
-        game.update(info.arrayPlayers);
-    }
+        game.update(info);
 });
 
 _socket.on('leaveGame', function(playerId) {
@@ -69,4 +65,34 @@ function keysUp(e) {
 function numKeysPressed(kys) {
     return (keys["37"] && keys["38"]) || (keys["37"] && keys["40"]) 
         || (keys["39"] && keys["38"]) || (keys["39"] && keys["40"]);
+}
+
+function followPlayer(app, player) {
+    app.stage.position.x = app.renderer.width / 2;
+    app.stage.position.y = app.renderer.height / 2;
+    //scale it
+    app.stage.scale.x = 2.0;
+    app.stage.scale.y = 2.0;
+    //now specify which point INSIDE stage must be (0,0)
+    
+    app.stage.pivot.x = player.sprite.position.x;
+    app.stage.pivot.y = player.sprite.position.y;
+}
+
+function resizeApp(app) {
+    // causing player to be very restricted in movements
+    const winwidth = window.innerWidth;
+    const winheight = window.innerHeight;
+    let appwidth;
+    let appheight;
+    if (winheight / winwidth < app.screen.height / app.screen.width) {
+        appheight = winheight;
+        appwidth = (winheight * app.screen.width) / app.screen.height;
+    } 
+    else {
+        appwidth = winwidth;
+        appheight = (winwidth * app.screen.height) / app.screen.width;
+    }
+    app.renderer.resize(appwidth, appheight);
+    app.stage.scale.set(appwidth / app.screen.width, appheight / app.screen.height);
 }

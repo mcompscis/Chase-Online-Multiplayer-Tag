@@ -152,7 +152,7 @@ Game.prototype = {
             var _this = this;
             players.forEach((p) => {
                 if (p.id == _this.localPlayer.id) {
-                    _this.localPlayer.setCoords(p.x, p.y);
+                    // _this.localPlayer.setCoords(p.x, p.y);
                     _this.localPlayer.setIsIt(p.isIt);
                     if (p.isIt) _this.localPlayer.updatePlayer();
                 }
@@ -277,7 +277,7 @@ Game.prototype = {
                     if (!player.isIt && !other.isIt) result.push(other);
                     else if (player.isIt || other.isIt) {
                         player.isIt ? this.endGame(other.id) : this.endGame(player.id);
-                        this.sendData(player);
+                        // this.sendData(player);
                         result = null;
                         break;
                     }
@@ -315,7 +315,6 @@ Game.prototype = {
         if (wall.result) {
             if (wall.spike && !player.isIt) this.endGame(player.id);
             else if (!wall.spike) this.movePlayerBackward(direction, player, speed);
-            else this.sendData(player);
         }
         else {
             this.bumpOtherPlayers(direction, player);
@@ -326,25 +325,25 @@ Game.prototype = {
     bumpOtherPlayers: function(direction, player, speed) {
         let firstContact = this.bumpArray(player);
         if (firstContact == null) return;
-        if (firstContact.length > 0) {
-            if (firstContact.length == 1) {
-                this.movePlayerForward(direction, firstContact[0], speed);
-                let bounds = b.contain(firstContact[0].sprite, {x: 0, y: 0, width: 3200, height: 1600}, true);
-                let wallTouch = this.bumpWall(firstContact[0]);
-                let secondContact = this.bumpArray(firstContact[0]);
-                if (bounds != undefined) this.movePlayerBackward(direction, player, speed);
-                if (secondContact == null) return;
-                if (wallTouch.result || (secondContact.length > 0)) {
-                    this.movePlayerBackward(direction, player, speed);
-                    this.movePlayerBackward(direction, firstContact[0], speed);
-                    if (wallTouch.result && wallTouch.spike) game.endGame(firstContact[0].id);
-                }
-            } else {
-                this.movePlayerBackward(direction, player, speed);
-            }
-            this.sendData(firstContact[0]);
-        }
-        this.sendData(player);
+        // if (firstContact.length > 0) {
+        //     if (firstContact.length == 1) {
+        //         this.movePlayerForward(direction, firstContact[0], speed);
+        //         let bounds = b.contain(firstContact[0].sprite, {x: 0, y: 0, width: 3200, height: 1600}, true);
+        //         let wallTouch = this.bumpWall(firstContact[0]);
+        //         let secondContact = this.bumpArray(firstContact[0]);
+        //         if (bounds != undefined) this.movePlayerBackward(direction, player, speed);
+        //         if (secondContact == null) return;
+        //         if (wallTouch.result || (secondContact.length > 0)) {
+        //             this.movePlayerBackward(direction, player, speed);
+        //             this.movePlayerBackward(direction, firstContact[0], speed);
+        //             if (wallTouch.result && wallTouch.spike) game.endGame(firstContact[0].id);
+        //         }
+        //     } else {
+        //         this.movePlayerBackward(direction, player, speed);
+        //     }
+        //     // this.sendData(firstContact[0]);
+        // }
+        // this.sendData(player);
     }
 }
 function gameLoop() {
@@ -370,7 +369,7 @@ function gameLoop() {
             else if (keys["40"]) game.bump("bottom", game.localPlayer, speed);
         }
 
-        // followPlayer();
-        // resizeApp(game.app);
+        followPlayer(game.app, game.localPlayer);
+        resizeApp(game.app);
     }
 }
