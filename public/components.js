@@ -150,9 +150,9 @@ Game.prototype = {
             var _this = this;
             players.forEach((p) => {
                 if (p != undefined) {
-                    if (_this.localPlayer.isIt != undefined && p.id == _this.localPlayer.id) {
+                    if (_this.localPlayer != undefined && p.id == _this.localPlayer.id) {
                         // _this.localPlayer.setCoords(p.x, p.y);
-                        if(_this.localPlayer.isIt != undefined) _this.localPlayer.setIsIt(p.isIt);
+                        if(_this.localPlayer != undefined) _this.localPlayer.setIsIt(p.isIt);
                         if (p.isIt) _this.localPlayer.updatePlayer();
                     }
                     else {
