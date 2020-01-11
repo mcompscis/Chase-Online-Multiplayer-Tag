@@ -127,11 +127,9 @@ Game.prototype = {
             this.sendData(this.localPlayer);
 
             var _this = this;
-            console.log("addinf player", data.players);
             data.players.forEach((pl) => {
                 if (pl.id != _this.localPlayer.id) {
                     let prevP = new Player(pl.id, pl.x, pl.y, pl.isIt);
-                    // console.log("old player added", pl.id);
                     if (pl.isIt) prevP.updatePlayer();
                     _this.otherPlayers.push(prevP);
                     _this.container.addChild(prevP.sprite);
@@ -153,17 +151,15 @@ Game.prototype = {
             players.forEach((p) => {
                 if (p.id == _this.localPlayer.id) {
                     // _this.localPlayer.setCoords(p.x, p.y);
-                    _this.localPlayer.setIsIt(p.isIt);
+                    if(p.isIt != undefined) _this.localPlayer.setIsIt(p.isIt);
                     if (p.isIt) _this.localPlayer.updatePlayer();
                 }
                 else {
                     _this.otherPlayers.forEach((op) => {
                         if (op.id == p.id) {
-                            console.log("moving this", op, op.sprite.x, op.sprite.y);
                             op.setCoords(p.x, p.y);
                             op.setIsIt(p.isIt);
                             if (p.isIt) op.updatePlayer();
-                            console.log("after", op, op.sprite.x, op.sprite.y);
                         }
                     });
                 }
@@ -319,7 +315,6 @@ Game.prototype = {
         else {
             this.bumpOtherPlayers(direction, player);
         }
-        console.log(player.sprite.x, player.sprite.y);
         this.sendData(player);
     },
     bumpOtherPlayers: function(direction, player, speed) {
@@ -351,7 +346,6 @@ function gameLoop() {
         b.contain(game.localPlayer.sprite, {x: 0, y: 0, width: 3200, height: 1600}, true);
         let oneOrMore = numKeysPressed(keys);
         if (oneOrMore) {
-            console.log("two keys pressed");
             speed = 4;
             if ((keys["37"] && keys["38"])) game.bump("topleft", game.localPlayer, speed);
             else if ((keys["37"] && keys["40"])) game.bump("bottomleft", game.localPlayer, speed);

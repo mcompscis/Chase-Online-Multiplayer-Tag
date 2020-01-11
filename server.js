@@ -68,7 +68,6 @@ let game = new GameServer();
 
 // Connections
 io.on('connection', (s) => {
-  console.log('User', s.id, 'connected.');
 
   // joining the game
   s.on('joinGame', function() {
@@ -100,14 +99,11 @@ io.on('connection', (s) => {
   //Handle disconnect event
   s.on('disconnect', function() {
     let players = game.getPlayers();
-    console.log("quit event called", players.length);
     if (players.length > 0 && players[0].id == s.id) {
       game.updateIt();
       s.broadcast.emit('update', players);
     }
     game.removePlayer(s.id);
-    console.log("players left:", players.length)
-    console.log('User', s.id, 'disconnected.');
     s.broadcast.emit('leaveGame', s.id);
   });
 
