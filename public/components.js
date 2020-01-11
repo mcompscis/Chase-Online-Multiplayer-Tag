@@ -149,19 +149,21 @@ Game.prototype = {
         if (players != undefined) {
             var _this = this;
             players.forEach((p) => {
-                if (p.id == _this.localPlayer.id) {
-                    // _this.localPlayer.setCoords(p.x, p.y);
-                    if(p.isIt != undefined) _this.localPlayer.setIsIt(p.isIt);
-                    if (p.isIt) _this.localPlayer.updatePlayer();
-                }
-                else {
-                    _this.otherPlayers.forEach((op) => {
-                        if (op.id == p.id) {
-                            op.setCoords(p.x, p.y);
-                            op.setIsIt(p.isIt);
-                            if (p.isIt) op.updatePlayer();
-                        }
-                    });
+                if (p != undefined) {
+                    if (p.id == _this.localPlayer.id) {
+                        // _this.localPlayer.setCoords(p.x, p.y);
+                        if(p.isIt != undefined) _this.localPlayer.setIsIt(p.isIt);
+                        if (p.isIt) _this.localPlayer.updatePlayer();
+                    }
+                    else {
+                        _this.otherPlayers.forEach((op) => {
+                            if (op.id == p.id) {
+                                op.setCoords(p.x, p.y);
+                                op.setIsIt(p.isIt);
+                                if (p.isIt) op.updatePlayer();
+                            }
+                        });
+                    }
                 }
             });
         }

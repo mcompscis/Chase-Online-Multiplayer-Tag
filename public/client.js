@@ -12,7 +12,7 @@ _socket.on('addPlayer', function(data) {
 });
 
 _socket.on('update', function(info) {
-        game.update(info);
+    game.update(info);
 });
 
 _socket.on('leaveGame', function(playerId) {
