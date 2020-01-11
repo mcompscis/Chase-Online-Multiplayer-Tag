@@ -85,8 +85,9 @@ io.on('connection', (s) => {
   s.on('localUpdate', function(player) {
     if (player != undefined) {
       game.updatePlayer(player);
-      s.emit('update', game.getPlayers());
-      s.broadcast.emit('update', game.getPlayers());
+      let data = {player: player, arrayPlayers : game.getPlayers()};
+      s.emit('update', data);
+      s.broadcast.emit('update', data);
     }
   });
 

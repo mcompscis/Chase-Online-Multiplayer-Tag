@@ -11,8 +11,12 @@ _socket.on('addPlayer', function(data) {
     game.addPlayer(data);
 });
 
-_socket.on('update', function(players) {
-    game.update(players);
+_socket.on('update', function(info) {
+    if ((game.localPlayer != undefined) && (info.player.id != game.localPlayer.id)) {
+        console.log("Got an update!", info.player);
+        console.log("The whole array", info.arrayPlayers);
+        game.update(info.arrayPlayers);
+    }
 });
 
 _socket.on('leaveGame', function(playerId) {
