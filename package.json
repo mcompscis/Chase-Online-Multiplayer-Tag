@@ -13,6 +13,6 @@
     "express": "^4.17.1",
     "pixi-plugin-bump": "^1.1.8",
     "pixi.js": "^5.2.0",
-    "socket.io": "^2.4.0"
+    "socket.io": "^2.5.0"
   }
 }
